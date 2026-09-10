@@ -1,7 +1,13 @@
 {
-  "parent": "minecraft:block/cube_all",
   "loader": "fusion:model",
+  "type": "connecting",
+  "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "cogcrasher:block/animated_blackstone"
-  }
+    "all": "cogcrasher:block/animated_blackstone_ctm"
+  },
+  "connections": [
+    {
+      "type": "is_same_block"
+    }
+  ]
 }
