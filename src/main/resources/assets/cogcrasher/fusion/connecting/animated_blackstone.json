@@ -1,0 +1,17 @@
+{
+  "type": "fusion:connecting",
+  "layout": "full",
+  "render_type": "cutout",
+  "connections": [
+    {
+      "match": {
+        "block": "cogcrasher:animated_blackstone"
+      }
+    }
+  ],
+  "ignore_missing_targets": true,
+  "textures": {
+    "all": "cogcrasher:block/animated_blackstone_ctm",
+    "ctm": "cogcrasher:block/animated_blackstone_ctm"
+  }
+}

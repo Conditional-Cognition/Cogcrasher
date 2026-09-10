@@ -1,0 +1,13 @@
+{
+  "itemGroup.cogcrasher": "Example Mod Tab",
+  "block.cogcrasher.example_block": "Example Block",
+  "item.cogcrasher.example_item": "Example Item",
+
+  "cogcrasher.configuration.title": "Cogcrasher Configs",
+  "cogcrasher.configuration.section.cogcrasher.common.toml": "Cogcrasher Configs",
+  "cogcrasher.configuration.section.cogcrasher.common.toml.title": "Cogcrasher Configs",
+  "cogcrasher.configuration.items": "Item List",
+  "cogcrasher.configuration.logDirtBlock": "Log Dirt Block",
+  "cogcrasher.configuration.magicNumberIntroduction": "Magic Number Text",
+  "cogcrasher.configuration.magicNumber": "Magic Number"
+}
