@@ -1,6 +1,6 @@
 {
   "loader": "fusion:model",
-  "type": "connecting",
+  "type": "fusion:connecting",
   "parent": "minecraft:block/cube_all",
   "textures": {
     "all": "cogcrasher:block/animated_blackstone_ctm"
