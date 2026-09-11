@@ -35,7 +35,7 @@ public class RollAttackGoal extends Goal {
         this.startPosition = this.golem.position();
         this.tickCounter = 0;
 
-        this.golem.rollStartAnimationState.start(this.golem.tickCount);
+        this.lockedYaw = this.golem.getYRot();
 
         Vec3 dir = this.target.position().subtract(this.golem.position());
         this.rollDirection = new Vec3(dir.x, 0, dir.z).normalize().scale(0.55);

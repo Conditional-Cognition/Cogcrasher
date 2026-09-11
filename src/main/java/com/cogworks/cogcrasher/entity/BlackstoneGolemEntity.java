@@ -69,10 +69,15 @@ public class BlackstoneGolemEntity extends Monster {
 
         if (this.level().isClientSide) {
             if (this.isRolling()) {
+                if (!this.rollStartAnimationState.isStarted()
+                        && !this.rollingLoopAnimationState.isStarted()) {
+                    this.rollStartAnimationState.start(this.tickCount);
+                }
+
                 if (this.rollStartAnimationState.isStarted()
                         && this.rollStartAnimationState.getAccumulatedTime() >= 1000) {
                     this.rollStartAnimationState.stop();
-                    this.rollingLoopAnimationState.startIfStopped(this.tickCount);
+                    this.rollingLoopAnimationState.start(this.tickCount);
                 }
             } else {
                 this.rollStartAnimationState.stop();

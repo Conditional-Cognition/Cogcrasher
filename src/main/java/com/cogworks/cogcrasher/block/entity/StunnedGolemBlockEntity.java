@@ -1,15 +1,26 @@
 package com.cogworks.cogcrasher.block.entity;
 
+import com.cogworks.cogcrasher.Cogcrasher;
 import com.cogworks.cogcrasher.registry.ModBlockEntities;
 import com.cogworks.cogcrasher.registry.ModBlocks;
 import com.cogworks.cogcrasher.registry.ModEntities;
 import com.cogworks.cogcrasher.entity.BlackstoneGolemEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 public class StunnedGolemBlockEntity extends BlockEntity {
     private int timer = 100;
@@ -42,30 +53,51 @@ public class StunnedGolemBlockEntity extends BlockEntity {
             core.golemData.putDouble("Health", currentHealth);
 
             if (currentHealth <= 0) {
-                core.clearStructure(level);
+                if (level instanceof ServerLevel serverLevel) {
+                    core.clearStructure(serverLevel);
+                }
             } else {
                 core.reform(level, currentHealth);
             }
         }
     }
 
-    private void clearStructure(Level level) {
+    private void clearStructure(ServerLevel level) {
         for (BlockPos p : BlockPos.betweenClosed(
                 structureCenter.offset(-1, -1, -1),
                 structureCenter.offset(1, 1, 1))) {
 
             if (level.getBlockState(p).is(ModBlocks.ANIMATED_BLACKSTONE)) {
-                level.destroyBlock(p, true);
+                level.destroyBlock(p, false);
             }
         }
 
-        if (level instanceof net.minecraft.server.level.ServerLevel serverLevel) {
-            net.minecraft.world.entity.ExperienceOrb.award(
-                    serverLevel,
-                    structureCenter.getCenter(),
-                    50
-            );
-        }
+        ResourceKey<LootTable> lootTableId = ResourceKey.create(
+                Registries.LOOT_TABLE,
+                ResourceLocation.fromNamespaceAndPath(
+                        Cogcrasher.MODID,
+                        "entities/blackstone_golem"
+                )
+        );
+
+        LootParams lootParams = new LootParams.Builder(level)
+                .withParameter(
+                        LootContextParams.ORIGIN,
+                        structureCenter.getCenter()
+                )
+                .create(LootContextParamSets.CHEST);
+
+        level.getServer()
+                .reloadableRegistries()
+                .getLootTable(lootTableId)
+                .getRandomItems(lootParams)
+                .forEach(stack -> Block.popResource(level, structureCenter, stack));
+
+        ExperienceOrb.award(
+                level,
+                structureCenter.getCenter(),
+                50
+        );
     }
 
     private void reform(Level level, double finalHealth) {
