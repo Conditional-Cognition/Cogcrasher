@@ -1,8 +1,6 @@
 package com.cogworks.cogcrasher;
 
-import com.cogworks.cogcrasher.registry.ModBlocks;
-import com.cogworks.cogcrasher.registry.ModCreativeTabs;
-import com.cogworks.cogcrasher.registry.ModItems;
+import com.cogworks.cogcrasher.registry.*;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.bus.api.IEventBus;
@@ -23,10 +21,13 @@ public class Cogcrasher {
 
     public Cogcrasher(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(ModBlocks::register);
+        modEventBus.addListener(ModItems::register);
+        modEventBus.addListener(ModEntities::register);
+        modEventBus.addListener(ModEntities::registerAttributes);
+        modEventBus.addListener(ModBlockEntities::register);
 
-        ModBlocks.BLOCKS.register(modEventBus);
-        ModItems.ITEMS.register(modEventBus);
-        ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
+        modEventBus.addListener(ModCreativeTabs::register);
 
         NeoForge.EVENT_BUS.register(this);
 
@@ -35,14 +36,14 @@ public class Cogcrasher {
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
-    private void commonSetup(FMLCommonSetupEvent event) {
-        LOGGER.info("HELLO FROM COGCRASHER LARRY CAN GET SCREWED");
-    }
-
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
-            event.accept(ModItems.ANIMATED_BLACKSTONE.get());
+            event.accept(ModItems.ANIMATED_BLACKSTONE);
         }
+    }
+
+    private void commonSetup(FMLCommonSetupEvent event) {
+        LOGGER.info("HELLO FROM COGCRASHER LARRY CAN GET SCREWED");
     }
 
     @SubscribeEvent
