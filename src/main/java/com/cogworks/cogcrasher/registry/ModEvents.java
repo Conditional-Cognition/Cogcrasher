@@ -11,9 +11,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
-@SuppressWarnings("removal")
+@SuppressWarnings({"removal","unused"})
 @EventBusSubscriber(modid = Cogcrasher.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class ModEvents {
 
@@ -56,6 +57,12 @@ public class ModEvents {
                 }
                 event.setCanceled(true);
             }
+        }
+    }
+    @SubscribeEvent
+    public static void onLivingHeal(LivingHealEvent event) {
+        if (event.getEntity().hasEffect(ModEffects.PETRIFICATION_HOLDER)) {
+            event.setAmount(0.0F);
         }
     }
 }

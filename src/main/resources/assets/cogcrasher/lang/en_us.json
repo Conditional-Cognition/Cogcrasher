@@ -7,6 +7,9 @@
   "block.cogcrasher.animated_blackstone": "Animated Blackstone",
 
   "entity.cogcrasher.blackstone_golem": "Blackstone Golem",
+  "entity.cogcrasher.malformed": "Malformed",
+
+  "effect.cogcrasher.petrification": "Petrification",
 
   "death.attack.malform": "%1$s undertook malformation"
 }

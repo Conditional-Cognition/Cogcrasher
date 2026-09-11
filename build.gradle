@@ -88,6 +88,7 @@ configurations {
 dependencies {
     implementation "curse.maven:create-328085:7963363"
     implementation "curse.maven:fusion-connected-textures-854949:8716430"
+    implementation "curse.maven:vanillabackport-417430:8229724"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

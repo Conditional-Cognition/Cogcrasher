@@ -26,6 +26,7 @@ public class Cogcrasher {
         modEventBus.addListener(ModEntities::register);
         modEventBus.addListener(ModEntities::registerAttributes);
         modEventBus.addListener(ModBlockEntities::register);
+        modEventBus.addListener(ModEffects::register);
 
         modEventBus.addListener(ModCreativeTabs::register);
 

@@ -1,11 +1,9 @@
 package com.cogworks.cogcrasher.model;
 
-
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.Keyframe;
 import net.minecraft.client.animation.KeyframeAnimations;
-
 
 public class BlackstoneGolemModelAnimation {
 	public static final AnimationDefinition roll = AnimationDefinition.Builder.withLength(1.0F)
