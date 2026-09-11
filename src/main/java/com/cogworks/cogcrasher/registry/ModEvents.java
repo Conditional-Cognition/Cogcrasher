@@ -22,9 +22,8 @@ public class ModEvents {
         if (event.getEntity() instanceof BlackstoneGolemEntity golem) {
             if (event.getSource().getEntity() instanceof Player player) {
                 boolean isPickaxe = player.getMainHandItem().getItem() instanceof PickaxeItem;
-                boolean isCrit = player.fallDistance > 0.0F && !player.onGround() && !player.onClimbable() && !player.isInWater();
 
-                if (golem.isRolling() && isPickaxe && isCrit) {
+                if (golem.isRolling() && isPickaxe) {
                     event.setCanceled(true);
                     Level level = golem.level();
 
@@ -41,6 +40,7 @@ public class ModEvents {
                             break;
                         }
                     }
+
                     if (!canPlace) centerPos = golem.blockPosition().above();
 
                     CompoundTag tag = new CompoundTag();
@@ -54,6 +54,7 @@ public class ModEvents {
                         }
                     }
                 }
+                event.setCanceled(true);
             }
         }
     }

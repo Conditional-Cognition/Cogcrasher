@@ -1,16 +1,12 @@
 package com.cogworks.cogcrasher.model;
-// Save this class in your mod and generate all required imports
+
 
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.Keyframe;
 import net.minecraft.client.animation.KeyframeAnimations;
 
-/**
- * Made with Blockbench 5.1.6
- * Exported for Minecraft version 1.19 or later with Mojang mappings
- * @author Cndtnl_Cognition
- */
+
 public class BlackstoneGolemModelAnimation {
 	public static final AnimationDefinition roll = AnimationDefinition.Builder.withLength(1.0F)
 		.addAnimation("lefthind", new AnimationChannel(AnimationChannel.Targets.ROTATION, 

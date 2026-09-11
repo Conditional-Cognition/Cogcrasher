@@ -35,8 +35,8 @@ public class GolemBlock extends Block implements EntityBlock {
         if (!level.isClientSide) {
             for (BlockPos checkPos : BlockPos.betweenClosed(pos.offset(-2, -2, -2), pos.offset(2, 2, 2))) {
                 if (level.getBlockEntity(checkPos) instanceof StunnedGolemBlockEntity core) {
-                    float flatDamage = 15.0F;
-                    core.processBlockDestruction(level, flatDamage);
+                    float damage = 20.0F + level.random.nextFloat() * 15.0F;
+                    core.processBlockDestruction(level, damage);
                     break;
                 }
             }

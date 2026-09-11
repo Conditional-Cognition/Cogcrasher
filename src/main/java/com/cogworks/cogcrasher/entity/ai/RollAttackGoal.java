@@ -11,6 +11,7 @@ public class RollAttackGoal extends Goal {
     private LivingEntity target;
     private Vec3 rollDirection;
     private Vec3 startPosition;
+    private float lockedYaw;
     private int tickCounter = 0;
 
     public RollAttackGoal(BlackstoneGolemEntity golem) {
@@ -34,8 +35,8 @@ public class RollAttackGoal extends Goal {
         this.startPosition = this.golem.position();
         this.tickCounter = 0;
 
-        this.golem.getLookControl().setLookAt(this.target, 30.0F, 30.0F);
-        
+        this.golem.rollStartAnimationState.start(this.golem.tickCount);
+
         Vec3 dir = this.target.position().subtract(this.golem.position());
         this.rollDirection = new Vec3(dir.x, 0, dir.z).normalize().scale(0.55);
     }
@@ -58,9 +59,17 @@ public class RollAttackGoal extends Goal {
     @Override
     public void tick() {
         this.tickCounter++;
-        
+
+        this.golem.setYRot(this.lockedYaw);
+        this.golem.setYHeadRot(this.lockedYaw);
+        this.golem.yBodyRot = this.lockedYaw;
+
         if (this.rollDirection != null) {
-            this.golem.setDeltaMovement(this.rollDirection.x, this.golem.getDeltaMovement().y, this.rollDirection.z);
+            this.golem.setDeltaMovement(
+                    this.rollDirection.x,
+                    this.golem.getDeltaMovement().y,
+                    this.rollDirection.z
+            );
         }
 
         if (this.target != null && this.golem.getBoundingBox().inflate(0.2).intersects(this.target.getBoundingBox())) {

@@ -3,7 +3,7 @@ package com.cogworks.cogcrasher.renderers;
 import com.cogworks.cogcrasher.Cogcrasher;
 import com.cogworks.cogcrasher.model.BlackstoneGolemModel;
 import com.cogworks.cogcrasher.entity.BlackstoneGolemEntity;
-import com.cogworks.cogcrasher.registry.ModModelLayers; // Import the layers file
+import com.cogworks.cogcrasher.registry.ModModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;

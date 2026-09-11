@@ -50,10 +50,21 @@ public class StunnedGolemBlockEntity extends BlockEntity {
     }
 
     private void clearStructure(Level level) {
-        for (BlockPos p : BlockPos.betweenClosed(structureCenter.offset(-1, -1, -1), structureCenter.offset(1, 1, 1))) {
+        for (BlockPos p : BlockPos.betweenClosed(
+                structureCenter.offset(-1, -1, -1),
+                structureCenter.offset(1, 1, 1))) {
+
             if (level.getBlockState(p).is(ModBlocks.ANIMATED_BLACKSTONE)) {
                 level.destroyBlock(p, true);
             }
+        }
+
+        if (level instanceof net.minecraft.server.level.ServerLevel serverLevel) {
+            net.minecraft.world.entity.ExperienceOrb.award(
+                    serverLevel,
+                    structureCenter.getCenter(),
+                    50
+            );
         }
     }
 

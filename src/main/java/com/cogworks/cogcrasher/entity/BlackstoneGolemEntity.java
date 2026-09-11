@@ -1,5 +1,6 @@
 package com.cogworks.cogcrasher.entity;
 
+import com.cogworks.cogcrasher.entity.ai.FollowTargetGoal;
 import com.cogworks.cogcrasher.entity.ai.RollAttackGoal;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -9,6 +10,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -19,7 +21,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class BlackstoneGolemEntity extends Monster {
-    // Defines a networked boolean parameter to track rolling safely across the server and client
+
     private static final EntityDataAccessor<Boolean> IS_ROLLING = SynchedEntityData.defineId(BlackstoneGolemEntity.class, EntityDataSerializers.BOOLEAN);
 
     private int rollCooldown = 0;
@@ -34,7 +36,6 @@ public class BlackstoneGolemEntity extends Monster {
     @Override
     protected void defineSynchedData(SynchedEntityData.@NotNull Builder builder) {
         super.defineSynchedData(builder);
-        // Register your custom data watcher field with a default fallback state
         builder.define(IS_ROLLING, false);
     }
 
@@ -42,7 +43,7 @@ public class BlackstoneGolemEntity extends Monster {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new RollAttackGoal(this));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(5, new FollowTargetGoal(this, 0.5D));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
@@ -62,14 +63,19 @@ public class BlackstoneGolemEntity extends Monster {
         }
     }
 
-    // Handles safe client-side animation state polling on every frame tick loop
     @Override
     public void tick() {
         super.tick();
+
         if (this.level().isClientSide) {
             if (this.isRolling()) {
-                this.rollingLoopAnimationState.startIfStopped(this.tickCount);
+                if (this.rollStartAnimationState.isStarted()
+                        && this.rollStartAnimationState.getAccumulatedTime() >= 1000) {
+                    this.rollStartAnimationState.stop();
+                    this.rollingLoopAnimationState.startIfStopped(this.tickCount);
+                }
             } else {
+                this.rollStartAnimationState.stop();
                 this.rollingLoopAnimationState.stop();
             }
         }
@@ -81,6 +87,19 @@ public class BlackstoneGolemEntity extends Monster {
 
     public void setRolling(boolean rolling) {
         this.entityData.set(IS_ROLLING, rolling);
+    }
+
+    @Override
+    public boolean isPushable() {
+        return false;
+    }
+
+    @Override
+    protected void doPush(net.minecraft.world.entity.Entity entity) {
+    }
+
+    @Override
+    public void knockback(double strength, double x, double z) {
     }
 
     public boolean isRollCooldownActive() { return this.rollCooldown > 0; }

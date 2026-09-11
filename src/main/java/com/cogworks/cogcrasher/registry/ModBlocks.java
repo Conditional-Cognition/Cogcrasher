@@ -14,12 +14,12 @@ public class ModBlocks {
 
     public static void register(RegisterEvent event) {
         event.register(BuiltInRegistries.BLOCK.key(), helper -> {
-            ANIMATED_BLACKSTONE = new GolemBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE));
+            ANIMATED_BLACKSTONE = new GolemBlock(BlockBehaviour
+                    .Properties.ofFullCopy(Blocks.POLISHED_BLACKSTONE));
             helper.register(
                     ResourceLocation.fromNamespaceAndPath(Cogcrasher.MODID, "animated_blackstone"),
                     ANIMATED_BLACKSTONE
             );
-
         });
     }
 }
