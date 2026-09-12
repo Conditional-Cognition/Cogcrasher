@@ -6,8 +6,10 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 
 public class MalformedModel<T extends MalformedEntity> extends HierarchicalModel<T> {
 
@@ -112,10 +114,13 @@ public class MalformedModel<T extends MalformedEntity> extends HierarchicalModel
 	) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
+		float walkSpeed = entity.isChasing() ? 2.0F : 1.0F;
+
 		this.animate(
 				entity.walkAnimationState,
 				MalformedAnimation.MALFORMED_WALK,
-				ageInTicks
+				ageInTicks,
+				walkSpeed
 		);
 
 		this.animate(

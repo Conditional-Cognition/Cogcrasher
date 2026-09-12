@@ -111,7 +111,6 @@ public class MalformedAnimation {
         )
         .build();
     public static final AnimationDefinition MALFORMED_ATTACK = AnimationDefinition.Builder.withLength(0.7083F)
-        .looping()
         .addAnimation(
             "upper_body",
             new AnimationChannel(

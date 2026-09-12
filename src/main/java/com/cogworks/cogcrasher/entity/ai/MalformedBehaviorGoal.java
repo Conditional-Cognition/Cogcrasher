@@ -1,21 +1,22 @@
 package com.cogworks.cogcrasher.entity.ai;
 
 import com.cogworks.cogcrasher.entity.MalformedEntity;
+import com.cogworks.cogcrasher.registry.ModDamageTypes;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.EnumSet;
 
 public class MalformedBehaviorGoal extends Goal {
 
     private final MalformedEntity malformed;
     private Player target;
     private int attackCooldown;
+    private boolean wasBeingWatched;
 
     public MalformedBehaviorGoal(MalformedEntity malformed) {
         this.malformed = malformed;
-        this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+        //this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
     }
 
     @Override
@@ -40,11 +41,6 @@ public class MalformedBehaviorGoal extends Goal {
     public void stop() {
         this.target = null;
         this.malformed.getNavigation().stop();
-        this.malformed.setDeltaMovement(
-                this.malformed.getDeltaMovement().x,
-                this.malformed.getDeltaMovement().y,
-                this.malformed.getDeltaMovement().z
-        );
     }
 
     @Override
@@ -53,30 +49,54 @@ public class MalformedBehaviorGoal extends Goal {
             return;
         }
 
+        this.malformed.getLookControl().setLookAt(
+                this.target,
+                30.0F,
+                30.0F
+        );
+
         boolean beingWatched = isBeingWatched();
 
         if (beingWatched) {
+            if (!this.wasBeingWatched) {
+                this.malformed.playFreezeSound();
+            }
+
             this.malformed.getNavigation().stop();
-            this.malformed.setDeltaMovement(
-                    0.0D,
-                    this.malformed.getDeltaMovement().y,
-                    0.0D
-            );
-            this.malformed.getLookControl().setLookAt(this.target, 30.0F, 30.0F);
+        } else {
+            if (this.wasBeingWatched) {
+                this.malformed.playUnfreezeSound();
+            }
+        }
+
+        this.wasBeingWatched = beingWatched;
+
+        if (beingWatched) {
             return;
         }
 
-        this.malformed.getLookControl().setLookAt(this.target, 30.0F, 30.0F);
+        double distance = this.malformed.distanceToSqr(this.target);
 
-        this.malformed.getNavigation().moveTo(this.target, 0.16D);
+        if (distance > 4.0D) {
+            this.malformed.getNavigation().moveTo(this.target, 2D);
+        } else {
+            this.malformed.getNavigation().stop();
 
-        if (this.attackCooldown > 0) {
-            this.attackCooldown--;
-        }
+            if (this.attackCooldown > 0) {
+                this.attackCooldown--;
+            }
 
-        if (this.malformed.distanceToSqr(this.target) <= 3.0D && this.attackCooldown <= 0) {
-            this.malformed.doHurtTarget(this.target); // TODO: replace with malform damage type
-            this.attackCooldown = 20;
+            if (this.attackCooldown <= 0) {
+                this.target.hurt(
+                        this.malformed.damageSources().source(
+                                ModDamageTypes.MALFORM
+                        ),
+                        (float) this.malformed.getAttributeValue(Attributes.ATTACK_DAMAGE)
+                );
+                this.attackCooldown = 20;
+                this.malformed.playAttackAnimation();
+                this.malformed.playAttackSound();
+            }
         }
     }
 
@@ -107,6 +127,7 @@ public class MalformedBehaviorGoal extends Goal {
         }
 
         Vec3 look = this.target.getLookAngle().normalize();
+
         Vec3 toMalformed = this.malformed.getEyePosition()
                 .subtract(this.target.getEyePosition())
                 .normalize();
