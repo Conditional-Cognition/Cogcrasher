@@ -1,0 +1,32 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.5,
+  "downfall": 0.0,
+  "creature_spawn_probability": 0.9,
+  "effects": {
+    "sky_color": 0,
+    "fog_color": 0,
+    "water_color": 4159204,
+    "water_fog_color": 329011,
+    "ambient_loop_sound": "minecraft:ambient.cave"
+  },
+  "carvers": {},
+  "features": [
+    [], [], [], [], [], [],
+    [
+      "cogcrasher:muddy_root_stack"
+    ],
+    [], [], [], []
+  ],
+  "spawners": {
+    "monster": [
+      {
+        "type": "cogcrasher:malformed",
+        "weight": 2,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ]
+  },
+  "spawn_costs": {}
+}

@@ -21,12 +21,14 @@ public class Cogcrasher {
 
     public Cogcrasher(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(ModBlocks::register);
+        modEventBus.addListener(CogcrasherBlocks::register);
         modEventBus.addListener(ModItems::register);
         modEventBus.addListener(ModEntities::register);
         modEventBus.addListener(ModEntities::registerAttributes);
         modEventBus.addListener(ModBlockEntities::register);
         modEventBus.addListener(ModEffects::register);
+
+        modEventBus.addListener(ModWorldgen::register);
 
         modEventBus.addListener(ModCreativeTabs::register);
 

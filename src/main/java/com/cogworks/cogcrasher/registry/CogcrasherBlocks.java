@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
-public class ModBlocks {
+public class CogcrasherBlocks {
     public static Block ANIMATED_BLACKSTONE;
 
     public static void register(RegisterEvent event) {

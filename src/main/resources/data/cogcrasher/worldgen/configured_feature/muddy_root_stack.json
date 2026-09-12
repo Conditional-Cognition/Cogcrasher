@@ -1,0 +1,51 @@
+{
+  "type": "minecraft:block_column",
+  "config": {
+    "direction": "down",
+    "allowed_placement": {
+      "type": "minecraft:true"
+    },
+    "prioritize_tip": false,
+    "layers": [
+      {
+        "height": 1,
+        "provider": {
+          "type": "minecraft:weighted_state_provider",
+          "entries": [
+            {
+              "weight": 60,
+              "data": {
+                "Name": "minecraft:air"
+              }
+            },
+            {
+              "weight": 20,
+              "data": {
+                "Name": "minecraft:pale_oak_sapling"
+              }
+            },
+            {
+              "weight": 20,
+              "data": {
+                "Name": "minecraft:closed_eyeblossom"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "height": {
+          "type": "minecraft:uniform",
+          "min_inclusive": 2,
+          "max_inclusive": 3
+        },
+        "provider": {
+          "type": "minecraft:simple_state_provider",
+          "state": {
+            "Name": "minecraft:muddy_mangrove_roots"
+          }
+        }
+      }
+    ]
+  }
+}

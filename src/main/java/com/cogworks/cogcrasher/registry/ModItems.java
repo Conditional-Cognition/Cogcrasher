@@ -14,7 +14,7 @@ public class ModItems {
 
     public static void register(RegisterEvent event) {
         event.register(BuiltInRegistries.ITEM.key(), helper -> {
-            ANIMATED_BLACKSTONE = new BlockItem(ModBlocks.ANIMATED_BLACKSTONE, new Item.Properties());
+            ANIMATED_BLACKSTONE = new BlockItem(CogcrasherBlocks.ANIMATED_BLACKSTONE, new Item.Properties());
             helper.register(
                     ResourceLocation.fromNamespaceAndPath(Cogcrasher.MODID, "animated_blackstone"),
                     ANIMATED_BLACKSTONE

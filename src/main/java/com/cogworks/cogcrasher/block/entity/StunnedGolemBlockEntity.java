@@ -2,7 +2,7 @@ package com.cogworks.cogcrasher.block.entity;
 
 import com.cogworks.cogcrasher.Cogcrasher;
 import com.cogworks.cogcrasher.registry.ModBlockEntities;
-import com.cogworks.cogcrasher.registry.ModBlocks;
+import com.cogworks.cogcrasher.registry.CogcrasherBlocks;
 import com.cogworks.cogcrasher.registry.ModEntities;
 import com.cogworks.cogcrasher.entity.BlackstoneGolemEntity;
 import net.minecraft.core.BlockPos;
@@ -67,7 +67,7 @@ public class StunnedGolemBlockEntity extends BlockEntity {
                 structureCenter.offset(-1, -1, -1),
                 structureCenter.offset(1, 1, 1))) {
 
-            if (level.getBlockState(p).is(ModBlocks.ANIMATED_BLACKSTONE)) {
+            if (level.getBlockState(p).is(CogcrasherBlocks.ANIMATED_BLACKSTONE)) {
                 level.destroyBlock(p, false);
             }
         }
@@ -102,7 +102,7 @@ public class StunnedGolemBlockEntity extends BlockEntity {
 
     private void reform(Level level, double finalHealth) {
         for (BlockPos p : BlockPos.betweenClosed(structureCenter.offset(-1, -1, -1), structureCenter.offset(1, 1, 1))) {
-            if (level.getBlockState(p).is(ModBlocks.ANIMATED_BLACKSTONE)) {
+            if (level.getBlockState(p).is(CogcrasherBlocks.ANIMATED_BLACKSTONE)) {
                 level.setBlock(p, Blocks.AIR.defaultBlockState(), 3);
             }
         }

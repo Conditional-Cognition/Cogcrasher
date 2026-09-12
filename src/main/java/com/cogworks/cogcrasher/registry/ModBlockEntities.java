@@ -14,7 +14,7 @@ public class ModBlockEntities {
     public static void register(RegisterEvent event) {
         event.register(BuiltInRegistries.BLOCK_ENTITY_TYPE.key(), helper -> {
             BlockEntityType<StunnedGolemBlockEntity> type = BlockEntityType.Builder.of(
-                StunnedGolemBlockEntity::new, ModBlocks.ANIMATED_BLACKSTONE
+                StunnedGolemBlockEntity::new, CogcrasherBlocks.ANIMATED_BLACKSTONE
             ).build(null);
             
             STUNNED_GOLEM = () -> type;

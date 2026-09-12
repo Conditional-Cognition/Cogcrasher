@@ -49,7 +49,7 @@ public class ModEvents {
                     golem.discard();
 
                     for (BlockPos p : BlockPos.betweenClosed(centerPos.offset(-1, -1, -1), centerPos.offset(1, 1, 1))) {
-                        level.setBlock(p, ModBlocks.ANIMATED_BLACKSTONE.defaultBlockState(), 3);
+                        level.setBlock(p, CogcrasherBlocks.ANIMATED_BLACKSTONE.defaultBlockState(), 3);
                         if (level.getBlockEntity(p) instanceof StunnedGolemBlockEntity part) {
                             part.initialize(tag, centerPos);
                         }

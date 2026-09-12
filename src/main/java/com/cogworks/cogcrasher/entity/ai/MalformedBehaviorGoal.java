@@ -16,7 +16,6 @@ public class MalformedBehaviorGoal extends Goal {
 
     public MalformedBehaviorGoal(MalformedEntity malformed) {
         this.malformed = malformed;
-        //this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
     }
 
     @Override
